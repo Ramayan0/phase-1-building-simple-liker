@@ -3,9 +3,32 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+// grabing the element to be clicked from our HTML
+const pageHeart = document.querySelectorAll(".like-glyph")
+// function to invoke mimicServerCall
+const likeHeart= (element => {
+  const heart = element.target;
+  mimicServerCall()
+  .then(() => {
+    if (heart.innerText === EMPTY_HEART){
+    heart.innerText = FULL_HEART;
+    heart.className = "activated-heart";
+  } else{
+    heart.innerText = EMPTY_HEART;
+    heart.className = "";
+  }
+  })
+  .catch(error => {
+    const modal = document.getElementById("modal");
+    modal.className ="";
+    modal.innerText = error;
+    setTimeout(() => modal.className = "hidden", 3000)
+  });
+})
 
-
-
+for (const glyph of pageHeart) {
+  glyph.addEventListener("click", likeHeart);
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
